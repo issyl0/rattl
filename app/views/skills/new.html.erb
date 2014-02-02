@@ -1,0 +1,29 @@
+<h2>Skills</h2>
+
+<p>Now, enter some skills you have.</p>
+
+<%= form_for(@skill) do |f| %>
+  <% if @skill.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@skill.errors.count, "error") %> prohibited your details from being saved:</h2>
+
+      <ul>
+      <% @skill.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :proficiency %><br>
+    <%= f.select :proficiency, ["1","2","3","4","5"] %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
