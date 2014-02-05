@@ -1,5 +1,9 @@
 Rattl::Application.routes.draw do
   resources :user_details
+  get '/job_search', to: 'job_search#index'
+  post '/job_search', to: 'job_search#create'
+  get '/job_search/create', to: 'job_search#search'
+  get '/job_search/list', to: 'job_search#list'
 
   devise_for :users, :controllers => { :registrations => "users/registrations", :omniauth_callbacks => "users/omniauth_callbacks" }
   root 'welcome#index'

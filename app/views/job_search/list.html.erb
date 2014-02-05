@@ -1,0 +1,4 @@
+<% vacancies.each do |vacancy| %>
+  <%= vacancy['title'] %> - <%= vacancy['company'] %> - <%= vacancy['location']['postcode'] %>
+  <br />
+<% end %>

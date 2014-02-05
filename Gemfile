@@ -12,6 +12,7 @@ gem 'devise'
 gem 'oauth2'
 gem 'omniauth'
 gem 'omniauth-facebook'
+gem 'rest-client'
 
 group :development, :test do
 	gem 'rspec-rails'
