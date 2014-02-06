@@ -1,4 +1,4 @@
 <% vacancies.each do |vacancy| %>
-  <%= vacancy['title'] %> - <%= vacancy['company'] %> - <%= vacancy['location']['postcode'] %>
-  <br />
+  <%= vacancy['title'] %> - <%= vacancy['summary'] %> - Vacancy End Date: <%= vacancy['activedate']['end'].to_date %> - <%= vacancy['location']['postcode'] %> - <%= vacancy['location']['city'] %>
+  <hr />
 <% end %>
