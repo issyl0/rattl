@@ -1,4 +1,5 @@
 <%= form_for :job_search do |f| %>
-  <%= text_field_tag :search %>
-  <%= submit_tag "Search", :name => nil %>
+  <%= f.text_field :search %>
+  <%= f.check_box :near_me %>
+  <%= f.submit "Search", :name => nil %>
 <% end %>

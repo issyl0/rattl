@@ -25,7 +25,6 @@ class JobSearchController < ApplicationController
 
   private
   def job_search_params
-    # IL TODO: Restrict parameters.
-    params.permit!
+    params.require(:job_search).permit(:search, :near_me)
   end
 end
