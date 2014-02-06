@@ -1,5 +1,6 @@
 <%= form_for :job_search do |f| %>
   <%= f.text_field :search %>
+  <%= f.label :near_me, "Close to location?" %>
   <%= f.check_box :near_me %>
   <%= f.submit "Search", :name => nil %>
 <% end %>
