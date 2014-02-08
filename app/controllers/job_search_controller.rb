@@ -6,7 +6,7 @@ class JobSearchController < ApplicationController
   def create
     @@vacancies = Array.new()
     api_root = "http://api.lmiforall.org.uk/api/v1/vacancies/search?limit=50"
-    keywords = "&keywords=#{job_search_params['search']}"
+    keywords = "&keywords=#{job_search_params['search'].gsub(" ", "%20")}"
     if job_search_params['near_me'] == "1"
       postcode = "&postcode=#{UserDetail.where(user_id: current_user.id).first.postcode.gsub(/\s+/, "")}"
     end
