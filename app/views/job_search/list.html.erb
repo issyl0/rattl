@@ -11,6 +11,6 @@
   <br />
   <%= vacancy['location']['city'] %>
   <br />
-  <%= vacancy['location']['postcode'] %>
+  <%= link_to vacancy['location']['postcode'], "http://maps.google.com/maps?z=30&t=m&q=#{vacancy['location']['postcode']}" %>
   <hr />
 <% end %>
