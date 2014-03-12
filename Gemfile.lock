@@ -154,6 +154,7 @@ DEPENDENCIES
   devise
   jbuilder (~> 1.2)
   jquery-rails
+  json
   mysql2
   oauth2
   omniauth

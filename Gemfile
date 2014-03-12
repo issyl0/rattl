@@ -13,6 +13,7 @@ gem 'oauth2'
 gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'rest-client'
+gem 'json'
 
 group :development, :test do
 	gem 'rspec-rails'
