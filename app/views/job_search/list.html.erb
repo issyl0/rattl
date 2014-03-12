@@ -1,0 +1,16 @@
+<% vacancies.each do |vacancy| %>
+  <%= vacancy['title'] %>
+  <br />
+  <%= vacancy['summary'] %>
+  <br />
+  Vacancy Posted Date: <%= vacancy['activedate']['start'].to_date %>
+  <br />
+  Vacancy End Date: <%= vacancy['activedate']['end'].to_date %>
+  <br />
+  <%= link_to vacancy['company'], "https://www.google.co.uk/search?q=#{vacancy['company'].gsub(" ", "+")}" %>
+  <br />
+  <%= vacancy['location']['city'] %>
+  <br />
+  <%= link_to vacancy['location']['postcode'], "http://maps.google.com/maps?z=30&t=m&q=#{vacancy['location']['postcode']}" %>
+  <hr />
+<% end %>
