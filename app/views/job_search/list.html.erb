@@ -12,5 +12,7 @@
   <%= vacancy['location']['city'] %>
   <br />
   <%= link_to vacancy['location']['postcode'], "http://maps.google.com/maps?z=30&t=m&q=#{vacancy['location']['postcode']}" %>
+  <br />
+  <%= link_to "Did you get the job?", job_result_verdict_path %>
   <hr />
 <% end %>
