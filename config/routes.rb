@@ -1,5 +1,6 @@
 Rattl::Application.routes.draw do
   resources :user_details
+  resources :skills
   get '/job_search', to: 'job_search#index'
   post '/job_search', to: 'job_search#create'
   get '/job_search/create', to: 'job_search#search'

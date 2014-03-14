@@ -21,8 +21,7 @@ class UserDetailsController < ApplicationController
 
     respond_to do |format|
       if @user_detail.save
-        # IL TODO: change redirect to go to skills page.
-        format.html { redirect_to root_path, notice: 'Details successfully saved.' }
+        format.html { redirect_to new_skill_path, notice: 'Details successfully saved.' }
         format.json { render action: 'show', status: :created, location: @user_detail }
       else
         format.html { render action: 'new' }
