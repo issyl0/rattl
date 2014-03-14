@@ -1,6 +1,6 @@
 <h2>Skills</h2>
 
-<p>Now, enter some skills you have. Proficiency is graded on a scale of 1&ndash;5, where 1 is beginner and 5 is expert.</p>
+<p>Now, enter a skill and your proficiency in it, separated by a comma. Each skill should go on a new line. Proficiency is graded on a scale of 1&ndash;5, where 1 is beginner and 5 is expert.</p>
 
 <%= form_for(@skill) do |f| %>
   <% if @skill.errors.any? %>
@@ -17,11 +17,7 @@
 
   <div class="field">
     <%= f.label :name %><br>
-    <%= f.text_field :name %>
-  </div>
-  <div class="field">
-    <%= f.label :proficiency %><br>
-    <%= f.select :proficiency, ["1","2","3","4","5"] %>
+    <%= f.text_area :name %>
   </div>
   <div class="actions">
     <%= f.submit %>
