@@ -24,9 +24,56 @@ class JobResultController < ApplicationController
         onet_abilities[:value] = oa['value']
       end
 
-      # If the user has > 5 skills matched, award him or her the job.
+      # Push the skills thesaurus results into an array.
+      skill_thesaurus_results = Array.new
+      onet_skills.each do |skill|
+        # The BigHugeThesaurus API doesn't handle querying for
+        # multiple words, so only use the first word.
+        skills_thesaurus = Dinosaurus.lookup("#{skill.last.to_s.strip.split(/\s+/)[0]}")
+        skills_thesaurus.synonyms.each do |synonym|
+          skill_thesaurus_results.push(synonym)
+        end
+        skills_thesaurus.related_terms.each do |related_term|
+          skill_thesaurus_results.push(related_term)
+        end
+      end
+
+      # Push the abilities thesaurus results into an array.
+      ability_thesaurus_results = Array.new
+      onet_abilities.each do |ability|
+        # The BigHugeThesaurus API doesn't handle querying for
+        # multiple words, so only use the first word.
+        abilities_thesaurus = Dinosaurus.lookup("#{ability.last.to_s.strip.split(/\s+/)[0]}")
+        abilities_thesaurus.synonyms.each do |synonym|
+          ability_thesaurus_results.push(synonym)
+        end
+        abilities_thesaurus.related_terms.each do |related_term|
+          ability_thesaurus_results.push(related_term)
+        end
+      end
+
+      # Match the user's experience to the job's requirements.
+      @match_counter = 0
+      User.find(current_user.id).skills.each do |possible_match|
+        if skill_thesaurus_results.include?(possible_match.name) || ability_thesaurus_results.include?(possible_match.name)
+          @match_counter += 1
+        end
+      end
+
+      # If the user has >= 5 skills matched, award him or her the job.
+      if @match_counter >= 5
+        render :success
+      else
+        render :failure
+      end
     else
       redirect_to job_search_path # Need to add an error message.
     end
+  end
+
+  def success
+  end
+  
+  def failure
   end
 end

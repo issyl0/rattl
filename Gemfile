@@ -14,6 +14,7 @@ gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'rest-client'
 gem 'json'
+gem 'dinosaurus'
 
 group :development, :test do
 	gem 'rspec-rails'
