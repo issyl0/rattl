@@ -67,7 +67,7 @@ class JobResultController < ApplicationController
         render :failure
       end
     else
-      redirect_to job_search_path # Need to add an error message.
+      redirect_to job_search_path, alert: "Sorry, we couldn't find any data for that job."
     end
   end
 
