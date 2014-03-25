@@ -61,7 +61,8 @@ class JobResultController < ApplicationController
       end
 
       # If the user has >= 5 skills matched, award him or her the job.
-      if @match_counter >= 5
+      if @match_counter <= 5
+        job_pay_hours_averages(soc_result[0]['soc'])
         render :success
       else
         render :failure
@@ -69,6 +70,11 @@ class JobResultController < ApplicationController
     else
       redirect_to job_search_path, alert: "Sorry, we couldn't find any data for that job."
     end
+  end
+
+  def job_pay_hours_averages(soc)
+    @avg_pay = JSON.parse(RestClient.get("http://api.lmiforall.org.uk/api/v1/ashe/estimatePay?soc=#{soc}"))['series'][0]['estpay']
+    @avg_hours = JSON.parse(RestClient.get("http://api.lmiforall.org.uk/api/v1/ashe/estimateHours?soc=#{soc}"))['series'][0]['hours']
   end
 
   def success
