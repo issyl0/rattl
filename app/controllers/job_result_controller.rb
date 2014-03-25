@@ -61,7 +61,7 @@ class JobResultController < ApplicationController
       end
 
       # If the user has >= 5 skills matched, award him or her the job.
-      if @match_counter <= 5
+      if @match_counter >= 5
         job_pay_hours_averages(soc_result[0]['soc'])
         render :success
       else
