@@ -1,15 +1,19 @@
 class JobResultController < ApplicationController
-  @@api_root = "http://api.lmiforall.org.uk/api/v1"
+  def api_call(path_params)
+    api_root = "http://api.lmiforall.org.uk/api/v1"
+    JSON.parse(RestClient.get("#{api_root}/#{path_params}"))
+  end
+
   def verdict
     # Get the SOC code for the particular job.
-    soc_result = JSON.parse(RestClient.get("#{@@api_root}/soc/search?q=#{$job_name.gsub(" ", "+")}"))
+    soc_result = api_call("soc/search?q=#{$job_name.gsub(" ", "+")}")
     
     if soc_result[0]
       # Convert the UK SOC code to its US ONET code.
-      onet_result = JSON.parse(RestClient.get("#{@@api_root}/o-net/soc2onet/#{soc_result[0]['soc']}"))['onetCodes'][0]['code']
+      onet_result = api_call("o-net/soc2onet/#{soc_result[0]['soc']}")['onetCodes'][0]['code']
     
       # Search the skills endpoint for the ONET code.
-      preprocesed_onet_skills = JSON.parse(RestClient.get("#{@@api_root}/o-net/skills/#{onet_result}"))['scales'][0]['skills']
+      preprocesed_onet_skills = api_call("o-net/skills/#{onet_result}")['scales'][0]['skills']
       # Push the ONET skills data into a hash for later processing.
       onet_skills = Hash.new
       preprocesed_onet_skills.each do |os|
@@ -17,7 +21,7 @@ class JobResultController < ApplicationController
         onet_skills[:value] = os['value']
       end
       # Search the abilities endpoint for the ONET code.
-      preprocessed_onet_abilities = JSON.parse(RestClient.get("#{@@api_root}/o-net/abilities/#{onet_result}"))['scales'][0]['abilities']
+      preprocessed_onet_abilities = api_call("o-net/abilities/#{onet_result}")['scales'][0]['abilities']
       # Push the ONET abilities data into a hash for later processing.
       onet_abilities = Hash.new
       preprocessed_onet_abilities.each do |oa|
@@ -74,17 +78,17 @@ class JobResultController < ApplicationController
   end
 
   def job_pay_hours_averages(soc)
-    @avg_pay = JSON.parse(RestClient.get("#{@@api_root}/ashe/estimatePay?soc=#{soc}"))['series'][0]['estpay']
-    @avg_hours = JSON.parse(RestClient.get("#{@@api_root}/ashe/estimateHours?soc=#{soc}"))['series'][0]['hours']
+    @avg_pay = api_call("ashe/estimatePay?soc=#{soc}")['series'][0]['estpay']
+    @avg_hours = api_call("ashe/estimateHours?soc=#{soc}")['series'][0]['hours']
     
     job_hours_gender_averages(soc)
   end
 
   def job_hours_gender_averages(soc)
     if UserDetail.find(current_user).gender == "m"
-      @avg_opposite_gender_pay = JSON.parse(RestClient.get("#{@@api_root}/ashe/estimatePay?soc=#{soc}&gender=2"))['series'][0]['estpay']
+      @avg_opposite_gender_pay = api_call("ashe/estimatePay?soc=#{soc}&gender=2")['series'][0]['estpay']
     else
-      @avg_opposite_gender_pay = JSON.parse(RestClient.get("#{@@api_root}/ashe/estimatePay?soc=#{soc}&gender=1"))['series'][0]['estpay']
+      @avg_opposite_gender_pay = api_call("ashe/estimatePay?soc=#{soc}&gender=1")['series'][0]['estpay']
     end
   end
 
