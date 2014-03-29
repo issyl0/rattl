@@ -9,4 +9,4 @@
 
 # Make sure your secret_key_base is kept private
 # if you're sharing your code publicly.
-Rattl::Application.config.secret_key_base = 'a58f1c488d8bc6b947960e0f538b835716f6c1874093d0bab3c59bd7fc9c3b34967daf27157aa51f75403bc3086e1ce086adc9ed27e0e432e2988b307c79ece3'
+Rattl::Application.config.secret_key_base = ENV['RATTL_SECRET_KEY_BASE']
