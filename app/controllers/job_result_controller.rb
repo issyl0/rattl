@@ -59,8 +59,10 @@ class JobResultController < ApplicationController
 
       # Match the user's experience to the job's requirements.
       @match_counter = 0
+      @matches = Array.new
       User.find(current_user.id).skills.each do |possible_match|
         if skill_thesaurus_results.include?(possible_match.name) || ability_thesaurus_results.include?(possible_match.name)
+          @matches[@match_counter] += possible_match.name
           @match_counter += 1
         end
       end
