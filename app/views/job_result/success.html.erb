@@ -2,4 +2,7 @@
 
 <p>You matched over 5 skills (specifically <span id="match_counter"><%= @match_counter %></span>) required to be a <span id="job_name"><%= $job_name %></span>.</p>
 
-<p>The average pay is £<%= @avg_pay %> per week. People in this type of job work on average <%= @avg_hours %> hours per week.</p>
+<p>The average overall pay is £<%= @avg_pay %> per week. People in this type of job work on average <%= @avg_hours %> hours per week.</p>
+
+<p>(If you were <%= UserDetail.find(current_user).gender == "m" ? "female" : "male" %>, on average you would earn
+  £<%= @avg_opposite_gender_pay %> per week.)</p>
