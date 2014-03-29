@@ -15,45 +15,45 @@ class JobResultController < ApplicationController
       # Search the skills endpoint for the ONET code.
       preprocesed_onet_skills = api_call("o-net/skills/#{onet_result}")['scales'][0]['skills']
       # Push the ONET skills data into a hash for later processing.
-      onet_skills = Hash.new
+      @onet_skills = Hash.new
       preprocesed_onet_skills.each do |os|
-        onet_skills[:name] = os['name']
-        onet_skills[:value] = os['value']
+        @onet_skills[:name] = os['name']
+        @onet_skills[:value] = os['value']
       end
       # Search the abilities endpoint for the ONET code.
       preprocessed_onet_abilities = api_call("o-net/abilities/#{onet_result}")['scales'][0]['abilities']
       # Push the ONET abilities data into a hash for later processing.
-      onet_abilities = Hash.new
+      @onet_abilities = Hash.new
       preprocessed_onet_abilities.each do |oa|
-        onet_abilities[:name] = oa['name']
-        onet_abilities[:value] = oa['value']
+        @onet_abilities[:name] = oa['name']
+        @onet_abilities[:value] = oa['value']
       end
 
       # Push the skills thesaurus results into an array.
-      skill_thesaurus_results = Array.new
-      onet_skills.each do |skill|
+      @skill_thesaurus_results = Array.new
+      @onet_skills.each do |skill|
         # The BigHugeThesaurus API doesn't handle querying for
         # multiple words, so only use the first word.
         skills_thesaurus = Dinosaurus.lookup("#{skill.last.to_s.strip.split(/\s+/)[0]}")
         skills_thesaurus.synonyms.each do |synonym|
-          skill_thesaurus_results.push(synonym)
+          @skill_thesaurus_results.push(synonym)
         end
         skills_thesaurus.related_terms.each do |related_term|
-          skill_thesaurus_results.push(related_term)
+          @skill_thesaurus_results.push(related_term)
         end
       end
 
       # Push the abilities thesaurus results into an array.
-      ability_thesaurus_results = Array.new
-      onet_abilities.each do |ability|
+      @ability_thesaurus_results = Array.new
+      @onet_abilities.each do |ability|
         # The BigHugeThesaurus API doesn't handle querying for
         # multiple words, so only use the first word.
         abilities_thesaurus = Dinosaurus.lookup("#{ability.last.to_s.strip.split(/\s+/)[0]}")
         abilities_thesaurus.synonyms.each do |synonym|
-          ability_thesaurus_results.push(synonym)
+          @ability_thesaurus_results.push(synonym)
         end
         abilities_thesaurus.related_terms.each do |related_term|
-          ability_thesaurus_results.push(related_term)
+          @ability_thesaurus_results.push(related_term)
         end
       end
 
@@ -61,7 +61,7 @@ class JobResultController < ApplicationController
       @matches = Array.new
       @non_matches = Array.new
       User.find(current_user.id).skills.each do |possible_match|
-        if skill_thesaurus_results.include?(possible_match.name) || ability_thesaurus_results.include?(possible_match.name)
+        if @skill_thesaurus_results.include?(possible_match.name) || @ability_thesaurus_results.include?(possible_match.name)
           @matches.push(possible_match.name)
         else
           @non_matches.push(possible_match.name)
