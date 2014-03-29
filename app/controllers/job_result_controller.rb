@@ -73,8 +73,19 @@ class JobResultController < ApplicationController
   end
 
   def job_pay_hours_averages(soc)
-    @avg_pay = JSON.parse(RestClient.get("http://api.lmiforall.org.uk/api/v1/ashe/estimatePay?soc=#{soc}"))['series'][0]['estpay']
-    @avg_hours = JSON.parse(RestClient.get("http://api.lmiforall.org.uk/api/v1/ashe/estimateHours?soc=#{soc}"))['series'][0]['hours']
+    @avg_pay = api_call("ashe/estimatePay?soc=#{soc}")['series'][0]['estpay']
+    @avg_hours = api_call("ashe/estimateHours?soc=#{soc}")['series'][0]['hours']
+    
+    job_pay_gender_averages(soc)
+  end
+
+  def job_pay_gender_averages(soc)
+    # Average weekly pay for the opposite gender of the current user.
+    if UserDetail.find(current_user).gender == "m"
+      @avg_opposite_gender_pay = api_call("ashe/estimatePay?soc=#{soc}&gender=2")['series'][0]['estpay']
+    else
+      @avg_opposite_gender_pay = api_call("ashe/estimatePay?soc=#{soc}&gender=1")['series'][0]['estpay']
+    end
   end
 
   def success
