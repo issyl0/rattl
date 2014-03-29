@@ -58,21 +58,18 @@ class JobResultController < ApplicationController
       end
 
       # Match the user's experience to the job's requirements.
-      @match_counter, @non_match_counter = 0
       @matches = Array.new
       @non_matches = Array.new
       User.find(current_user.id).skills.each do |possible_match|
         if skill_thesaurus_results.include?(possible_match.name) || ability_thesaurus_results.include?(possible_match.name)
-          @matches[@match_counter] += possible_match.name
-          @match_counter += 1
+          @matches.push(possible_match.name)
         else
-          @non_matches[@match_counter] += possible_match.name
-          @non_match_counter += 1
+          @non_matches.push(possible_match.name)
         end
       end
 
       # If the user has >= 5 skills matched, award him or her the job.
-      if @match_counter >= 5
+      if @matches.count >= 5
         job_pay_hours_averages(soc_result[0]['soc'])
         render :success
       else

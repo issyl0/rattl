@@ -1,3 +1,10 @@
 <h2>Boooooo.</h2>
 
-<p>You matched under 5 skills (specifically <span id="match_counter"><%= @match_counter %></span>) required to be a <span id="job_name"><%= $job_name %></span>.</p>
+<p>You matched under 5 skills required to be a <span id="job_name"><%= $job_name %></span>.</p>
+
+<p>Skills you don't have for this job include:</p>
+  <ul>
+  <% @non_matches.take(5).each do |match| %>
+    <li><%= match %></li>
+  <% end %>
+  </ul>

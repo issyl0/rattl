@@ -1,10 +1,10 @@
 <h2>Woooooo.</h2>
 
-<p>You matched over 5 skills (specifically <span id="match_counter"><%= @match_counter %></span>) required to be a <span id="job_name"><%= $job_name %></span>.</p>
+<p>You matched over 5 skills required to be a <span id="job_name"><%= $job_name %></span>.</p>
 
 <p>Your matched skills included:</p>
   <ul>
-  <% @matches.each do |match| %>
+  <% @matches.take(5).each do |match| %>
     <li><%= match %></li>
   <% end %>
   </ul>
