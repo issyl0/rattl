@@ -1,0 +1,27 @@
+<h2>Boooooo.</h2>
+
+<p>You matched under 5 skills required to be a <span id="job_name"><%= $job_name %></span>.</p>
+
+<h3>Skills you need for this job include:</h3>
+  <ul>
+    <% @onet_skills.slice(:name).each do |skill| %>
+      <li><%= skill[1] %></li>
+    <% end %>
+    <% @onet_abilities.slice(:name).each do |ability| %>
+      <li><%= ability[1] %></li>
+    <% end %>
+    <% @skill_thesaurus_results.take(3).each do |skill| %>
+      <li><%= skill %></li>
+    <% end %>
+    <% @ability_thesaurus_results.take(3).each do |ability| %>
+      <li><%= ability %></li>
+    <% end %>
+  </ul>
+  <br />
+
+<h3>Skills you don't have for this job include:</h3>
+  <ul>
+  <% @non_matches.take(5).each do |match| %>
+    <li><%= match %></li>
+  <% end %>
+  </ul>

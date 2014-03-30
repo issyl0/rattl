@@ -1,0 +1,25 @@
+<h2>Skills</h2>
+
+<p>Now, enter a skill and your proficiency in it, separated by a comma. Each skill should go on a new line. Proficiency is graded on a scale of 1&ndash;5, where 1 is beginner and 5 is expert.</p>
+
+<%= form_for(@skill) do |f| %>
+  <% if @skill.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@skill.errors.count, "error") %> prohibited your details from being saved:</h2>
+
+      <ul>
+      <% @skill.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br>
+    <%= f.text_area :name %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

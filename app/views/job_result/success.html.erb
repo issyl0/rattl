@@ -1,0 +1,15 @@
+<h2>Woooooo.</h2>
+
+<p>You matched over 5 skills required to be a <span id="job_name"><%= $job_name %></span>.</p>
+
+<p>Your matched skills included:</p>
+  <ul>
+  <% @matches.take(5).each do |match| %>
+    <li><%= match %></li>
+  <% end %>
+  </ul>
+
+<p>The average overall pay is £<%= @avg_pay %> per week. People in this type of job work on average <%= @avg_hours %> hours per week.</p>
+
+<p>(If you were <%= UserDetail.find(current_user).gender == "m" ? "female" : "male" %>, on average you would earn
+  £<%= @avg_opposite_gender_pay %> per week.)</p>
