@@ -10,5 +10,5 @@ Rattl::Application.routes.draw do
   get '/job_result/failure', to: 'job_result#failure'
 
   devise_for :users, :controllers => { :registrations => "users/registrations", :omniauth_callbacks => "users/omniauth_callbacks" }
-  root 'welcome#index'
+  root 'welcome#welcome'
 end
