@@ -14,7 +14,11 @@ class JobSearchController < ApplicationController
 
     postcode ? query_with_location(api_root, keywords, postcode) : query_without_location(api_root, keywords)
 
-    redirect_to job_search_list_path
+    if @@vacancies.empty?
+      redirect_to job_search_path
+    else
+      redirect_to job_search_list_path
+    end
   end
 
   def list
